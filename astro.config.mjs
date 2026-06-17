@@ -5,6 +5,6 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://api-b2b-directory.vercel.app',
+  site: 'https://b2b-api-directory.vercel.app/',
   integrations: [sitemap()]
 });
