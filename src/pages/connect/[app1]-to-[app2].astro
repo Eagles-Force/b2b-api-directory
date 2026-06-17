@@ -1,0 +1,92 @@
+---
+// Import your custom CSS sheet
+import '../../styles/global.css';
+
+// Import your local JSON database array
+import integrationsData from '../../data/integrations.json';
+
+// Define your static build paths mapping out every row in the dataset
+export async function getStaticPaths() {
+  return (integrationsData as any).map((item: any) => ({
+    params: { 
+      app1: item.app1, 
+      app2: item.app2 
+    },
+    props: { rowData: item },
+  }));
+}
+
+// 1. Cast Astro.props as 'any' to fix the 'never' type restriction error
+const props = Astro.props as any;
+
+// 2. Extract ALL required content parameters smoothly
+const { app1Name, app2Name, category, trigger, action, difficulty, customDescription } = props.rowData;
+
+// Clean up slugs for canonical mapping links
+const { app1, app2 } = Astro.params;
+const canonicalURL = `https://yourdomain.com/connect/${app1}-to-${app2}`;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>How to Connect {app1Name} to {app2Name} Natively ({category})</title>
+    <meta name="description" content={customDescription} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content={`How to Connect ${app1Name} to ${app2Name} Natively`} />
+    <meta property="og:description" content={customDescription} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="API Automation Hub" />
+    
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
+  </head>
+  <body>
+    <div class="wrapper">
+      
+      <header class="header-section">
+        <span class="category-tag">{category}</span>
+        <h1>Connecting {app1Name} + {app2Name}</h1>
+        <p style="font-size: 1.15rem; max-width: 700px; margin: 1rem auto; color: var(--text-muted);">
+          {customDescription}
+        </p>
+      </header>
+
+      <!-- TOP ADVERTISEMENT SLOT -->
+      <div class="ad-banner-slot">
+        <span>[Premium Target B2B Ad Slot Placeholder]</span>
+        <!-- Google AdSense script integration goes right here later -->
+      </div>
+
+      <main>
+        <section class="integration-matrix">
+          <div class="app-card">
+            <h2>1. Source Event ({app1Name})</h2>
+            <p><strong>Webhook Trigger:</strong> <code>{trigger}</code></p>
+            <p>Listens for inbound JSON payload data chunks sent securely via system event listeners.</p>
+          </div>
+          
+          <div class="app-card">
+            <h2>2. Destination Action ({app2Name})</h2>
+            <p><strong>API Endpoint Action:</strong> <code>{action}</code></p>
+            <p>Maps received structural keys automatically into your matching schema attributes.</p>
+          </div>
+        </section>
+
+        <article style="background: white; border: 1px solid var(--border-color); padding: 2rem; border-radius: 12px;">
+          <h3>Integration Prerequisites & Complexity</h3>
+          <p>This data mapping profile is rated as <strong>{difficulty}</strong>. Production deployments require basic authentication handshakes or secure OAuth token configuration arrays.</p>
+        </article>
+      </main>
+
+      <!-- BOTTOM ADVERTISEMENT SLOT -->
+      <div class="ad-banner-slot">
+        <span>[Premium Target B2B Ad Slot Placeholder]</span>
+      </div>
+
+    </div>
+  </body>
+</html>

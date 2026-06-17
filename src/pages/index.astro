@@ -1,0 +1,47 @@
+---
+// src/pages/index.astro
+import '../styles/global.css';
+import integrationsData from '../data/integrations.json';
+
+const cleanDataset = integrationsData as any;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Automation Directory | Browse B2B Software Integrations</title>
+    <meta name="description" content="Browse thousands of automated production data mapping configurations and API triggers across modern enterprise SaaS platforms." />
+  </head>
+  <body>
+    <div class="wrapper">
+      
+      <header class="header-section">
+        <h1>B2B API Integration Directory</h1>
+        <p>Select a data pipeline combination below to view technical prerequisites, webhook structures, and live mapping attributes.</p>
+      </header>
+
+      <div class="ad-banner-slot">
+        <span>[Premium Directory Header Banner Slot]</span>
+      </div>
+
+      <main>
+        <div class="directory-grid">
+          {/* Explicitly declaring (item: any) clears the implicit type guard rule */}
+          {cleanDataset.map((item: any) => (
+            <a href={`/connect/${item.app1}-to-${item.app2}`} class="directory-card">
+              <div class="card-meta">
+                <span class="mini-tag">{item.category}</span>
+                <span class="diff-indicator">{item.difficulty}</span>
+              </div>
+              <h2>{item.app1Name} + {item.app2Name}</h2>
+              <p>{item.customDescription}</p>
+              <span class="cta-arrow">View API Blueprint →</span>
+            </a>
+          ))}
+        </div>
+      </main>
+
+    </div>
+  </body>
+</html>
